@@ -1,0 +1,13 @@
+library("RMySQL")
+library(data.table)
+
+# Insert relevant Host, User and Password information.
+connection <- dbConnect(MySQL(), user = 'xxxxxx', password = 'xxxxxx', host = 'xxxxxx', dbname = 'xxxxxx')
+
+# Note path structure below includes how to account for a space in directory names, aka 'Parcel Data'
+input.file <- "J:/Projects/Parcel\ Data/Capacity/inputs/CapacityPcl_res0-100-2019-01-08.csv"
+pcls <- fread(input.file)
+
+dbWriteTable(connection, name = "parcel_capacities", value = pcls, row.names = FALSE, append = TRUE)
+
+dbDisconnect(connection)
